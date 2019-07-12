@@ -8,9 +8,17 @@
                     <h4 class="box-title">Search box</h4>
                     <div class="box-controls pull-right">
                         <a href="{{ route('category.create') }}" class="btn btn-info btn-sm pull-right">Add New</a>
-                        <div class="lookup lookup-circle lookup-right">
-                            <input type="text" name="s">
-                        </div>
+                        <form>
+                            <div class="lookup lookup-circle lookup-right">
+                                <input type="text" name="search" value="{{ request()->search }}">
+                                <select name="status" id="">
+                                    <option value="">Select Status</option>
+                                    <option @if(request()->status == 'Active') selected @endif value="Active">Active</option>
+                                    <option @if(request()->status == 'Inactive') selected @endif value="Inactive">Inactive</option>
+                                </select>
+                                <button class="btn btn-sm btn-warning pull-right" type="submit">Search</button>
+                            </div>
+                        </form>
                     </div>
                 </div>
                 <!-- /.box-header -->
