@@ -15,7 +15,7 @@ class CategoryController extends Controller
     public function index()
     {
         $data['title'] = 'Category List';
-        $data['categories'] = Category::orderBy('id','DESC')->paginate(10);
+        $data['categories'] = Category::withTrashed()->orderBy('id','DESC')->paginate(10);
         return view('admin.category.index',$data);
     }
 
@@ -105,6 +105,20 @@ class CategoryController extends Controller
     {
         $category->delete();
         session()->flash('message','Category deleted successfully');
+        return redirect()->route('category.index');
+    }
+    public function restore($id)
+    {
+        $category = Category::onlyTrashed()->findOrFail($id);
+        $category->restore();
+        session()->flash('message','Category restored successfully');
+        return redirect()->route('category.index');
+    }
+    public function delete($id)
+    {
+        $category = Category::onlyTrashed()->findOrFail($id);
+        $category->forceDelete();
+        session()->flash('message','Category has been permanently deleted.');
         return redirect()->route('category.index');
     }
 }

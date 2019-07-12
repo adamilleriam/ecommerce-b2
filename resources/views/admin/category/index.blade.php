@@ -29,18 +29,31 @@
                                     <td>{{ $category->name }}</td>
                                     <td><span class="label {{ ($category->status == 'Active')?'label-info':'label-danger'}}">{{ $category->status }}</span></td>
                                     <td>
-                                        <a href="{{ route('category.edit',$category->id) }}" class="btn btn-sm btn-info">Edit</a>
-                                        <form action="{{ route('category.destroy',$category->id) }}" method="post" style="display: inline">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you confirm to delete this category?')">Delete</button>
-                                        </form>
+                                        @if($category->deleted_at == null)
+                                            <a href="{{ route('category.edit',$category->id) }}" class="btn btn-sm btn-info">Edit</a>
+                                            <form action="{{ route('category.destroy',$category->id) }}" method="post" style="display: inline">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you confirm to delete this category?')">Delete</button>
+                                            </form>
+                                        @else
+                                            <form action="{{ route('category.restore',$category->id) }}" method="post" style="display: inline">
+                                                @csrf
+                                                <button type="submit" class="btn btn-sm btn-warning" onclick="return confirm('Are you confirm to restore this category?')">Restore</button>
+                                            </form>
+                                            <form action="{{ route('category.delete',$category->id) }}" method="post" style="display: inline">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you confirm to permanent delete this category?')">Permanent Delete</button>
+                                            </form>
+                                        @endif
 
                                     </td>
                                 </tr>
                             @endforeach
                         </table>
                     </div>
+                    {{ $categories->render() }}
                 </div>
                 <!-- /.box-body -->
             </div>
