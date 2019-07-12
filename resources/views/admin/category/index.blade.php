@@ -30,6 +30,12 @@
                                     <td><span class="label {{ ($category->status == 'Active')?'label-info':'label-danger'}}">{{ $category->status }}</span></td>
                                     <td>
                                         <a href="{{ route('category.edit',$category->id) }}" class="btn btn-sm btn-info">Edit</a>
+                                        <form action="{{ route('category.destroy',$category->id) }}" method="post" style="display: inline">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you confirm to delete this category?')">Delete</button>
+                                        </form>
+
                                     </td>
                                 </tr>
                             @endforeach
