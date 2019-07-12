@@ -23,9 +23,9 @@
                 @endphp
                 <label for="default">Status</label>
                 <br>
-                <input name="status" type="radio" value="active" id="active" @if($status =='active') checked @endif >
+                <input name="status" type="radio" value="active" id="active" @if($status =='Active') checked @endif >
                 <label for="active">Active</label>
-                <input name="status" type="radio" value="inactive" id="inactive" @if($status =='inactive') checked @endif >
+                <input name="status" type="radio" value="inactive" id="inactive" @if($status =='Inactive') checked @endif >
                 <label for="inactive">Inactive</label>
             </div>
             @error('status')

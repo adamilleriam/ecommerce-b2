@@ -18,21 +18,21 @@
                     <div class="table-responsive">
                         <table class="table table-hover">
                             <tr>
-                                <th>Invoice</th>
-                                <th>User</th>
-                                <th>Date</th>
-                                <th>Amount</th>
+                                <th>Id</th>
+                                <th>Name</th>
                                 <th>Status</th>
-                                <th>Country</th>
+                                <th>Actions</th>
                             </tr>
-                            <tr>
-                                <td><a href="javascript:void(0)">Order #123456</a></td>
-                                <td>Lorem Ipsum</td>
-                                <td><span class="text-muted"><i class="fa fa-clock-o"></i> Oct 16, 2017</span> </td>
-                                <td>$158.00</td>
-                                <td><span class="label label-danger">Pending</span></td>
-                                <td>CH</td>
-                            </tr>
+                            @foreach($categories as $category)
+                                <tr>
+                                    <td>{{ $category->id }}</td>
+                                    <td>{{ $category->name }}</td>
+                                    <td><span class="label {{ ($category->status == 'Active')?'label-info':'label-danger'}}">{{ $category->status }}</span></td>
+                                    <td>
+                                        <a href="{{ route('category.edit',$category->id) }}" class="btn btn-sm btn-info">Edit</a>
+                                    </td>
+                                </tr>
+                            @endforeach
                         </table>
                     </div>
                 </div>

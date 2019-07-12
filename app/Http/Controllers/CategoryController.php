@@ -15,6 +15,7 @@ class CategoryController extends Controller
     public function index()
     {
         $data['title'] = 'Category List';
+        $data['categories'] = Category::orderBy('id','DESC')->paginate(10);
         return view('admin.category.index',$data);
     }
 
@@ -68,7 +69,9 @@ class CategoryController extends Controller
      */
     public function edit(Category $category)
     {
-        //
+        $data['title'] = 'Edit category';
+        $data['category'] = $category;
+        return view('admin.category.edit',$data);
     }
 
     /**
@@ -80,7 +83,16 @@ class CategoryController extends Controller
      */
     public function update(Request $request, Category $category)
     {
-        //
+        $request->validate([
+            'name'=>'required',
+            'status'=>'required',
+        ]);
+
+        $category_data= $request->except('_token','_method');
+        $category_data['updated_by'] = 1;
+        $category->update($category_data);
+        session()->flash('message','Category updated successfully');
+        return redirect()->route('category.index');
     }
 
     /**
