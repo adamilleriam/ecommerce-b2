@@ -25,12 +25,12 @@
                  {{ isset($title)?$title:config('app.name') }}
             </h1>
         </section>
-
         <!-- Main content -->
-    <section class="content">
-        @yield('content')
-        <!-- /.row -->
-    </section>
+        <section class="content">
+            @include('layouts.backend._messages')
+            @yield('content')
+            <!-- /.row -->
+        </section>
     <!-- /.content -->
     </div>
     <!-- /.content-wrapper -->

@@ -14,7 +14,8 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        //
+        $data['title'] = 'Category List';
+        return view('admin.category.index',$data);
     }
 
     /**
@@ -24,7 +25,8 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        //
+        $data['title'] = 'Crate new category';
+        return view('admin.category.create',$data);
     }
 
     /**
@@ -35,7 +37,16 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name'=>'required',
+            'status'=>'required',
+        ]);
+
+        $category= $request->except('_token');
+        $category['created_by'] = 1;
+        Category::create($category);
+        session()->flash('message','Category created successfully');
+        return redirect()->route('category.index');
     }
 
     /**
