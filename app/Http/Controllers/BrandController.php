@@ -43,7 +43,7 @@ class BrandController extends Controller
      */
     public function create()
     {
-        $data['title'] = 'Crate new brand';
+        $data['title'] = 'Create new brand';
         return view('admin.brand.create',$data);
     }
 
