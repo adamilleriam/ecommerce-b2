@@ -1,6 +1,5 @@
 @extends('layouts.backend.master')
 @section('content')
-
     <div class="row">
         <div class="col-12">
             <div class="box">
@@ -33,7 +32,7 @@
                             </tr>
                             @foreach($categories as $category)
                                 <tr>
-                                    <td>{{ $category->id }}</td>
+                                    <td>{{ $serial++ }}</td>
                                     <td>{{ $category->name }}</td>
                                     <td><span class="label {{ ($category->status == 'Active')?'label-info':'label-danger'}}">{{ $category->status }}</span></td>
                                     <td>

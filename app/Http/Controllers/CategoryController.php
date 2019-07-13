@@ -23,8 +23,16 @@ class CategoryController extends Controller
         if($request->has('status') && $request->status != null){
             $category = $category->where('status',$request->status);
         }
-        $category = $category->orderBy('id','DESC')->paginate(10);
+        $category = $category->orderBy('id','DESC')->paginate(3);
         $data['categories'] = $category;
+
+        if (isset($request->status) || $request->search) {
+            $render['status'] = $request->status;
+            $render['search'] = $request->search;
+            $category = $category->appends($render);
+        }
+
+        $data['serial'] = managePagination($category);
         return view('admin.category.index',$data);
     }
 
