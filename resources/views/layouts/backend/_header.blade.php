@@ -43,7 +43,7 @@
             <!-- Messages -->
             <li class="dropdown messages-menu">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                    <i class="mdi mdi-email"></i>
+                    <i class="fa fa-envelope-open"></i>
                 </a>
                 <ul class="dropdown-menu scale-up">
                     <li class="header">You have 5 messages</li>
@@ -129,7 +129,7 @@
             <!-- Notifications -->
             <li class="dropdown notifications-menu">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                    <i class="mdi mdi-bell"></i>
+                    <i class="fa fa-bell"></i>
                 </a>
                 <ul class="dropdown-menu scale-up">
                     <li class="header">You have 7 notifications</li>
@@ -179,7 +179,7 @@
             <!-- Tasks-->
             <li class="dropdown tasks-menu">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                    <i class="mdi mdi-message"></i>
+                    <i class="fa fa-envelope"></i>
                 </a>
                 <ul class="dropdown-menu scale-up">
                     <li class="header">You have 6 tasks</li>
