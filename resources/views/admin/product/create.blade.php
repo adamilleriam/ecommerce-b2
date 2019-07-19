@@ -10,7 +10,7 @@
                 </div>
                 <!-- /.box-header -->
                 <div class="box-body wizard-content">
-                    <form action="{{ route('product.store') }}" method="post">
+                    <form action="{{ route('product.store') }}" method="post" enctype="multipart/form-data">
                         <!-- Step 1 -->
                         @include('admin.product._form')
                         <button class="btn btn-primary" type="submit">Submit</button>

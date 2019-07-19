@@ -118,6 +118,12 @@
             @error('description')
             <div class="pl-1 text-danger">{{ $message }}</div>
             @enderror
+
+            <div class="form-group">
+                <label for="image">Images</label>
+                <br>
+                <input type="file" name="images[]" id="image" multiple>
+            </div>
         </div>
     </div>
 </section>

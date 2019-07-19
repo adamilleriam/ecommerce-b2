@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Brand;
 use App\Category;
 use App\Product;
+use App\ProductImage;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
@@ -25,7 +26,7 @@ class ProductController extends Controller
         if($request->has('status') && $request->status != null){
             $product = $product->where('status',$request->status);
         }
-        $product = $product->orderBy('id','DESC')->paginate(3);
+        $product = $product->orderBy('id','DESC')->paginate(10);
         $data['products'] = $product;
 
         if (isset($request->status) || $request->search) {
@@ -66,10 +67,23 @@ class ProductController extends Controller
             'price'=>'required|numeric',
             'stock'=>'required|numeric',
             'status'=>'required',
+            'images.*' =>'image'
         ]);
-        $product = $request->except('_token');
+        $product = $request->except('_token','images');
         $product['created_by'] = 1;
-        Product::create($product);
+        $product=Product::create($product);
+
+        if(count($request->images))
+        {
+            foreach ($request->images as $image) {
+                $product_image['product_id'] = $product->id;
+                $file_name = $product->id.'-'.time().'-'.rand(0000,9999).'.'.$image->getClientoriginalExtension();
+//                dd($file_name);
+                $image->move('images/products/',$file_name);
+                $product_image['file_path'] = 'images/products/'.$file_name;
+                ProductImage::create($product_image);
+            }
+        }
         session()->flash('message','Product created successfully');
         return redirect()->route('product.index');
     }
@@ -80,10 +94,10 @@ class ProductController extends Controller
      * @param  \App\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function show(Product $product)
+    public function show($id)
     {
         $data['title'] = 'Product Details';
-        $data['product'] = $product;
+        $data['product'] = Product::with(['category','brand','product_image'])->findOrFail($id);
         $data['categories'] = Category::orderBy('name')->pluck('name','id');
         $data['brands'] = Brand::orderBy('name')->pluck('name','id');
         return view('admin.product.show',$data);
