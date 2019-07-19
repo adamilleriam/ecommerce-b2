@@ -7,6 +7,7 @@ use App\Category;
 use App\Product;
 use App\ProductImage;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
 
 class ProductController extends Controller
 {
@@ -75,14 +76,7 @@ class ProductController extends Controller
 
         if(count($request->images))
         {
-            foreach ($request->images as $image) {
-                $product_image['product_id'] = $product->id;
-                $file_name = $product->id.'-'.time().'-'.rand(0000,9999).'.'.$image->getClientoriginalExtension();
-//                dd($file_name);
-                $image->move('images/products/',$file_name);
-                $product_image['file_path'] = 'images/products/'.$file_name;
-                ProductImage::create($product_image);
-            }
+            $this->uploadImage($request->images,$product->id);
         }
         session()->flash('message','Product created successfully');
         return redirect()->route('product.index');
@@ -134,12 +128,32 @@ class ProductController extends Controller
             'price'=>'required|numeric',
             'stock'=>'required|numeric',
             'status'=>'required',
+            'images.*' =>'image'
         ]);
         $product_data = $request->except('_token');
         $product_data['updated_by'] = 1;
         $product->update($product_data);
+
+        if(count($request->images))
+        {
+            foreach ($request->images as $image) {
+                $this->uploadImage($request->images,$product->id);
+            }
+        }
+
+
         session()->flash('message','Product updated successfully');
         return redirect()->route('product.index');
+    }
+    private function uploadImage($images,$product_id)
+    {
+        foreach ($images as $image) {
+            $product_image['product_id'] = $product_id;
+            $file_name = $product_id.'-'.time().'-'.rand(0000,9999).'.'.$image->getClientoriginalExtension();
+            $image->move('images/products/',$file_name);
+            $product_image['file_path'] = 'images/products/'.$file_name;
+            ProductImage::create($product_image);
+        }
     }
 
     /**
@@ -163,9 +177,23 @@ class ProductController extends Controller
     }
     public function delete($id)
     {
-        $product = Product::onlyTrashed()->findOrFail($id);
+        $product = Product::onlyTrashed()->with('product_image')->findOrFail($id);
+        if(count($product->product_image)) {
+            foreach ($product->product_image as $image) {
+                File::delete($image->file_path);
+                $image->delete();
+            }
+        }
         $product->forceDelete();
         session()->flash('message','Product has been permanently deleted.');
         return redirect()->route('product.index');
+    }
+    public function delete_image($image_id)
+    {
+        $image = ProductImage::findOrFail($image_id);
+        File::delete($image->file_path);
+        $image->delete();
+        session()->flash('message','Product image has been permanently deleted.');
+        return redirect()->back();
     }
 }
