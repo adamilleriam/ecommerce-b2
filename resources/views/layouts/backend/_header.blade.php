@@ -317,7 +317,15 @@
                             </div>
                             <div role="separator" class="divider col-12"></div>
                             <div class="col-12 text-left">
-                                <a href="#"><i class="fa fa-power-off"></i> Logout</a>
+                                <a class="fa fa-power-off" href="{{ route('logout') }}"
+                                   onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">
+                                    {{ __('Logout') }}
+                                </a>
+
+                                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                    @csrf
+                                </form>
                             </div>
                         </div>
                         <!-- /.row -->
