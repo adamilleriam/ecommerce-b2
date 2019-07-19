@@ -27,7 +27,8 @@
                             <tr>
                                 <th>Id</th>
                                 <th>Name</th>
-                                <th>Details</th>
+                                <th>Price</th>
+                                <th>Stock</th>
                                 <th>Status</th>
                                 <th>Actions</th>
                             </tr>
@@ -35,10 +36,12 @@
                                 <tr>
                                     <td>{{ $serial++ }}</td>
                                     <td>{{ $product->name }}</td>
-                                    <td>{{ $product->description }}</td>
-                                    <td><span class="label {{ ($product->status == 'active')?'label-info':'label-danger'}}">{{ $product->status }}</span></td>
+                                    <td>{{ $product->price }}</td>
+                                    <td>{{ $product->stock }}</td>
+                                    <td><span class="label {{ ($product->status == 'active')?'label-info':'label-danger'}}">{{ ucfirst($product->status) }}</span></td>
                                     <td>
                                         @if($product->deleted_at == null)
+                                            <a href="{{ route('product.show',$product->id) }}" class="btn btn-sm btn-primary">Details</a>
                                             <a href="{{ route('product.edit',$product->id) }}" class="btn btn-sm btn-info">Edit</a>
                                             <form action="{{ route('product.destroy',$product->id) }}" method="post" style="display: inline">
                                                 @csrf
