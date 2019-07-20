@@ -35,6 +35,14 @@
             </span>
             </a>
         </li>
+        <li>
+            <a href="{{ route('user.index') }}">
+                <i class="fa fa-print"></i> <span>Users</span>
+                <span class="pull-right-container">
+                  <i class="fa fa-angle-right pull-right"></i>
+                </span>
+            </a>
+        </li>
         <li class="treeview">
             <a href="#">
                 <i class="fa fa-th"></i>
