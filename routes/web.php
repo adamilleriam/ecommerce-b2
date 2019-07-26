@@ -12,7 +12,7 @@
 */
 
 Route::get('/','HomeController@index')->name('home');
-Route::get('product/{id}','Front/ProductController@index')->name('product.details');
+Route::get('product/{id}','Front\ProductController@index')->name('product.details');
 
 
 Route::middleware('auth')->prefix('admin')->group(function (){
