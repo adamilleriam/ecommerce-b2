@@ -29,6 +29,13 @@
             @error('status')
             <div class="pl-1 text-danger">{{ $message }}</div>
             @enderror
+            <div class="form-group">
+                <label for="logo">Logo :</label>
+                <input name="logo" type="file" id="logo">
+            </div>
+            @error('logo')
+            <div class="pl-1 text-danger">{{ $message }}</div>
+            @enderror
         </div>
         <div class="col-md-6">
             <div class="form-group">
