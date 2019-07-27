@@ -20,7 +20,7 @@
             </div><!-- End .price-box -->
 
             <div class="product-action">
-                <a href="product.html" class="paction add-cart" title="Add to Cart">
+                <a href="#" class="paction add-cart" url="{{ route('ajax.addToCart',$product->id) }}" title="Add to Cart">
                     <span>Add to Cart</span>
                 </a>
             </div><!-- End .product-action -->
