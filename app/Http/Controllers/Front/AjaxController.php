@@ -12,14 +12,15 @@ class AjaxController extends Controller
     {
 //        session()->remove('cart');
         $product = Product::findOrFail($product_id);
-        $sesionData['product_id'] = $product->id;
-        $sesionData['name'] = $product->name;
-        $sesionData['quantity'] = 1;
-        $sesionData['price'] = $product->price;
-        $sesionData['image'] = isset($product->product_image[0]) ? $product->product_image[0]->file_path : 'assets/frontend/images/products/no-image-available.png';
-        session()->push('cart', $sesionData);
+        if($product->stock > 0) {
+            $sesionData['product_id'] = $product->id;
+            $sesionData['name'] = $product->name;
+            $sesionData['quantity'] = 1;
+            $sesionData['price'] = $product->price;
+            $sesionData['image'] = isset($product->product_image[0]) ? $product->product_image[0]->file_path : 'assets/frontend/images/products/no-image-available.png';
+            session()->push('cart', $sesionData);
 
-
+        }
         $data['cart'] = session('cart');
 
         $data['headerCartDetailsView'] = view('front.ajax.headerCartDetails',$data)->render();
