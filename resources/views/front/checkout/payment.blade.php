@@ -9,7 +9,6 @@
             </ol>
         </div><!-- End .container -->
     </nav>
-
     <div class="container">
         <ul class="checkout-progress-bar">
             <li>
@@ -21,6 +20,12 @@
         </ul>
         <div class="row">
             <div class="col-lg-8">
+
+                <message>
+                    @if(session()->has('success'))
+                        <span class="alert alert-success">{{ session('success') }}</span>
+                    @endif
+                </message>
                 <ul class="checkout-steps">
                     <li>
                         <h2 class="step-title">Customer Details</h2>
@@ -52,7 +57,9 @@
                                 <td>{{ $order->total_price }}/-</td>
                             </tr>
                         </table>
-                            <button class="btn btn-success btn-bg">Pay Now</button>
+                        @if($order->payment_status == 'unpaid')
+                            <a href="{{ route('payment.gateway',$order->id) }}" class="btn btn-success btn-bg">Pay Now</a>
+                        @endif
                     </li>
                 </ul>
             </div><!-- End .col-lg-8 -->

@@ -10,15 +10,25 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
+// SSL Routes
+
+Route::post('success', 'Front\CheckoutController@success');
+Route::post('fail', 'Front\CheckoutController@fail');
+Route::post('cancel', 'Front\CheckoutController@cancel');
+
+Route::post('ipn', 'Front\CheckoutController@ipn');
+
 
 Route::get('/','HomeController@index')->name('home');
 Route::get('products/{id?}','Front\ProductController@index')->name('front.product.index');
 Route::get('product/{id}','Front\ProductController@details')->name('product.details');
 Route::get('cart','Front\ProductController@cart')->name('cart');
+Route::get('payment/gateway/{orderId}','Front\CheckoutController@payment_gateway')->name('payment.gateway');
 Route::get('payment/{customerId}/{orderId}','Front\CheckoutController@payment')->name('payment');
 Route::get('checkout','Front\CheckoutController@index')->name('checkout');
 Route::post('customer/store','Front\CustomerController@store')->name('customer.store');
 Route::get('ajax/add-to-cart/{product_id}','Front\AjaxController@addToCart')->name('ajax.addToCart');
+
 
 
 Route::middleware('auth')->prefix('admin')->group(function (){
