@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Front;
 
 use App\Customer;
+use App\Mail\OrderPlaceMail;
 use App\Order;
 use App\OrderDetail;
 use App\Product;
@@ -10,6 +11,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 
 class CustomerController extends Controller
 {
@@ -65,9 +67,11 @@ class CustomerController extends Controller
                     }
                 }
             }
-
             Order::findOrFail($order_id)->update(['total_price' => $total]);
             DB::commit();
+
+            $customer = Customer::findOrFail($customer_id);
+            Mail::to($customer->email)->send(new OrderPlaceMail($order_id));
             return redirect()->route('payment',[$customer_id,$order_id]);
         }catch (\Exception $exception)
         {
