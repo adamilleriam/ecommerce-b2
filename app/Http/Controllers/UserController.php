@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Policies\UserPolicy;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Gate;
 
 class UserController extends Controller
 {
@@ -44,8 +46,12 @@ class UserController extends Controller
      */
     public function create()
     {
-        $data['title']="Create User";
-        return view('admin.user.create',$data);
+        if(Gate::allows('user.create',UserPolicy::class)) {
+            $data['title'] = "Create User";
+            return view('admin.user.create', $data);
+        }
+        session()->flash('message', 'Unauthorized Access');
+        return redirect()->back();
     }
 
     /**
@@ -56,27 +62,31 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'name'=>'required',
-            'type'=>'required',
-            'email'=>'required|unique:users|email',
-            'password'=>'required|confirmed',
-            'status'=>'required',
-        ]);
+        if(Gate::allows('user.create',UserPolicy::class)) {
+            $request->validate([
+                'name' => 'required',
+                'type' => 'required',
+                'email' => 'required|unique:users|email',
+                'password' => 'required|confirmed',
+                'status' => 'required',
+            ]);
 
-        $user = $request->except('_token','password');
-        $user['password'] = bcrypt($request->password);
+            $user = $request->except('_token', 'password');
+            $user['password'] = bcrypt($request->password);
 
-        if($request->hasFile('image')){
-            $file = $request->file('image');
-            $file->move('images/users/',$file->getClientOriginalName());
-            $user['image'] = 'images/users/'.$file->getClientOriginalName();
+            if ($request->hasFile('image')) {
+                $file = $request->file('image');
+                $file->move('images/users/', $file->getClientOriginalName());
+                $user['image'] = 'images/users/' . $file->getClientOriginalName();
+            }
+
+
+            User::create($user);
+            session()->flash('message', 'User created successfully');
+            return redirect()->route('user.index');
         }
-
-
-        User::create($user);
-        session()->flash('message','User created successfully');
-        return redirect()->route('user.index');
+        session()->flash('message', 'Unauthorized Access');
+        return redirect()->back();
     }
 
     /**

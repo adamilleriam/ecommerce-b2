@@ -6,7 +6,9 @@
                 <div class="box-header with-border">
                     <h4 class="box-title">Search box</h4>
                     <div class="box-controls pull-right">
-                        <a href="{{ route('user.create') }}" class="btn btn-info btn-sm pull-right">Add New</a>
+                        @can('user.create',\App\Policies\UserPolicy::class)
+                            <a href="{{ route('user.create') }}" class="btn btn-info btn-sm pull-right">Add New</a>
+                        @endcan
                         <form>
                             <div class="lookup lookup-circle lookup-right">
                                 <input type="text" name="search" value="{{ request()->search }}">
@@ -39,7 +41,9 @@
                                     <td><span class="label {{ ($user->status == 'active')?'label-info':'label-danger'}}">{{ ucfirst($user->status) }}</span></td>
                                     <td>
                                         @if($user->deleted_at == null)
+                                            @if(\Illuminate\Support\Facades\Gate::allows('edit-user'))
                                             <a href="{{ route('user.edit',$user->id) }}" class="btn btn-sm btn-info">Edit</a>
+                                            @endif
                                             <form action="{{ route('user.destroy',$user->id) }}" method="post" style="display: inline">
                                                 @csrf
                                                 @method('DELETE')
