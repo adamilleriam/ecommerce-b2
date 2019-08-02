@@ -20,7 +20,7 @@ class CreateOrdersTable extends Migration
             $table->foreign('customer_id')->references('id')->on('customers');
             $table->float('total_price',10,2)->nullable();
             $table->timestamp('date');
-            $table->enum('status',['pending','processing','shipping','delivered'])->default('pending');
+            $table->enum('status',['pending','processing','shipping','delivered','canceled'])->default('pending');
             $table->enum('payment_status',['paid','unpaid'])->default('unpaid');
             $table->enum('payment_type',['card','cash'])->nullable();
             $table->timestamps();

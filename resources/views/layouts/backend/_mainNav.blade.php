@@ -28,6 +28,14 @@
             </a>
         </li>
         <li>
+            <a href="{{ route('order.index') }}">
+                <i class="fa fa-print"></i> <span>Orders</span>
+                <span class="pull-right-container">
+              <i class="fa fa-angle-right pull-right"></i>
+            </span>
+            </a>
+        </li>
+        <li>
             <a href="{{ route('product.index') }}">
                 <i class="fa fa-print"></i> <span>Products</span>
                 <span class="pull-right-container">
