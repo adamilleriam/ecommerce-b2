@@ -51,8 +51,10 @@
                                         @if($order->status != 'delivered')
                                             <a href="{{ route('order.change_status',[$order->id,'delivered']) }}" class="btn btn-sm btn-info" onclick="return confirm('Are you confirm to change status?')">Delivered</a>
                                         @endif
-                                        @if($order->status != 'canceled')
-                                            <a href="{{ route('order.change_status',[$order->id,'canceled']) }}" class="btn btn-sm btn-info" onclick="return confirm('Are you confirm to change status?')">Canceled</a>
+                                        @if(auth()->user()->type != 'manager')
+                                            @if($order->status != 'canceled')
+                                                <a href="{{ route('order.change_status',[$order->id,'canceled']) }}" class="btn btn-sm btn-info" onclick="return confirm('Are you confirm to change status?')">Canceled</a>
+                                            @endif
                                         @endif
                                             {{--<form action="{{ route('order.destroy',$order->id) }}" method="post" style="display: inline">
                                             @csrf

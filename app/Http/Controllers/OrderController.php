@@ -31,8 +31,18 @@ class OrderController extends Controller
     {
         if($status == 'processing' || $status == 'shipping' || $status == 'delivered' || $status == 'canceled')
         {
-            Order::findOrFail($order_id)->update(['status'=>$status]);
-            session()->flash('message','Order status updated successfully');
+            if(auth()->user()->type == 'manager' && $status != 'canceled')
+            {
+                Order::findOrFail($order_id)->update(['status'=>$status]);
+                session()->flash('message','Order status updated successfully');
+            }else{
+                session()->flash('message','Unauthorized Request');
+            }
+            if(auth()->user()->type != 'manager')
+            {
+                Order::findOrFail($order_id)->update(['status'=>$status]);
+                session()->flash('message','Order status updated successfully');
+            }
         }
         return redirect()->back();
     }
