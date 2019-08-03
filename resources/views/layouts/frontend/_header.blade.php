@@ -120,14 +120,14 @@
 
             <div class="dropdown cart-dropdown">
                 <a href="#" class="dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-display="static">
-                    <span class="cart-count"><span class="totalCartItemHeaderChild">{{ count(session('cart')) }}</span></span>
+                    <span class="cart-count"><span class="totalCartItemHeaderChild">@if(session()->has('cart')) {{ count(session('cart')) }} @else 0 @endif</span></span>
                 </a>
 
                 <div class="dropdown-menu" >
                     <div class="dropdownmenu-wrapper">
                         <span class="headerCartDetails">
                            <div class="dropdown-cart-header">
-    <span>{{ count(session('cart')) }} Items</span>
+    <span>@if(session()->has('cart')) {{ count(session('cart')) }} @else 0 @endif Items</span>
 
     <a href="cart.html">View Cart</a>
 </div><!-- End .dropdown-cart-header -->
