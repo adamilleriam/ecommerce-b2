@@ -9,6 +9,9 @@
             </ol>
         </div><!-- End .container -->
     </nav>
+    @if(session()->has('message'))
+        <span class="alert alert-warning">{{ session('message') }}</span>
+    @endif
 
     <div class="container">
         <ul class="checkout-progress-bar">
@@ -25,7 +28,7 @@
                     <li>
                         <h2 class="step-title">Shipping Address</h2>
 
-                        <form action="#">
+                        {{--<form action="#">
                             <div class="form-group required-field">
                                 <label>Email Address </label>
                                 <div class="form-control-tooltip">
@@ -44,39 +47,39 @@
                                 <button type="submit" class="btn btn-primary">LOGIN</button>
                                 <a href="forgot-password.html" class="forget-pass"> Forgot your password?</a>
                             </div><!-- End .form-footer -->
-                        </form>
+                        </form>--}}
 
                         <form action="{{ route('customer.store') }}" method="post">
                             @csrf
                             <div class="form-group required-field">
                                 <label>First Name </label>
-                                <input type="text" name="first_name" class="form-control">
+                                <input type="text" value="{{ old('first_name') }}" name="first_name" class="form-control">
                             </div><!-- End .form-group -->
                             @error('first_name')
                             <div class="pl-1 text-danger">{{ $message }}</div>
                             @enderror
                             <div class="form-group required-field">
                                 <label>Last Name </label>
-                                <input type="text" name="last_name" class="form-control">
+                                <input type="text" value="{{ old('last_name') }}" name="last_name" class="form-control">
                             </div><!-- End .form-group -->
                             @error('last_name')
                             <div class="pl-1 text-danger">{{ $message }}</div>
                             @enderror
                             <div class="form-group">
                                 <label>Company </label>
-                                <input name="company" type="text" class="form-control">
+                                <input value="{{ old('company') }}" name="company" type="text" class="form-control">
                             </div><!-- End .form-group -->
 
                             <div class="form-group required-field">
                                 <label>Street Address </label>
-                                <input name="street_address" type="text" class="form-control">
+                                <input value="{{ old('street_address') }}" name="street_address" type="text" class="form-control">
                             </div><!-- End .form-group -->
                             @error('street_address')
                             <div class="pl-1 text-danger">{{ $message }}</div>
                             @enderror
                             <div class="form-group required-field">
                                 <label>District  </label>
-                                <input name="district" type="text" class="form-control">
+                                <input value="{{ old('district') }}" name="district" type="text" class="form-control">
                             </div><!-- End .form-group -->
                             @error('district')
                             <div class="pl-1 text-danger">{{ $message }}</div>
@@ -84,7 +87,7 @@
 
                             <div class="form-group required-field">
                                 <label>Zip/Postal Code </label>
-                                <input name="zip" type="text" class="form-control">
+                                <input value="{{ old('zip') }}" name="zip" type="text" class="form-control">
                             </div><!-- End .form-group -->
                             @error('zip')
                             <div class="pl-1 text-danger">{{ $message }}</div>
@@ -93,7 +96,7 @@
                             <div class="form-group required-field">
                                 <label>Phone Number </label>
                                 <div class="form-control-tooltip">
-                                    <input name="phone" type="tel" class="form-control">
+                                    <input value="{{ old('phone') }}" name="phone" type="tel" class="form-control">
                                     <span class="input-tooltip" data-toggle="tooltip" title="For delivery questions." data-placement="right"><i class="icon-question-circle"></i></span>
                                 </div><!-- End .form-control-tooltip -->
                             </div><!-- End .form-group -->
@@ -103,7 +106,7 @@
                             <div class="form-group required-field">
                                 <label>Email </label>
                                 <div class="form-control-tooltip">
-                                    <input name="email" type="email" class="form-control">
+                                    <input value="{{ old('email') }}" name="email" type="email" class="form-control">
                                     <span class="input-tooltip" data-toggle="tooltip" title="For delivery questions." data-placement="right"><i class="icon-question-circle"></i></span>
                                 </div><!-- End .form-control-tooltip -->
                             </div><!-- End .form-group -->

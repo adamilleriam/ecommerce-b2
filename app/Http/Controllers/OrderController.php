@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\OrdersExport;
 use App\Order;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 
 class OrderController extends Controller
 {
@@ -45,5 +47,10 @@ class OrderController extends Controller
             }
         }
         return redirect()->back();
+    }
+
+    public function export()
+    {
+        return Excel::download(new OrdersExport,'order.xlsx');
     }
 }

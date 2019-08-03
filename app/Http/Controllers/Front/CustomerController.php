@@ -40,7 +40,7 @@ class CustomerController extends Controller
             $order['order_number'] = 'OID' . time();
             $order['customer_id'] = $customer_id;
             $order['date'] = now();
-            $order_id = Order::insertGetId($order);
+            $order = Order::create($order);
 
             // Store Order details
             $cart = session('cart');
@@ -49,7 +49,7 @@ class CustomerController extends Controller
                 foreach ($cart as $item) {
                     $product = Product::findOrFail($item['product_id']);
                     if($product->stock >= $item['quantity']) {
-                        $order_details['order_id'] = $order_id;
+                        $order_details['order_id'] = $order->id;
                         $order_details['product_id'] = $item['product_id'];
                         $order_details['product_name'] = $item['name'];
                         $order_details['price'] = $item['price'];
@@ -63,16 +63,17 @@ class CustomerController extends Controller
                         $product->stock = $product->stock - $item['quantity'];
                         $product->save();
                     }else{
-                        return redirect()->route('checkout');
+                        session()->flash('message',$product->name.' insufficient stock');
+                        return redirect()->route('checkout')->withInput($request->all());
                     }
                 }
             }
-            Order::findOrFail($order_id)->update(['total_price' => $total]);
+            Order::findOrFail($order->id)->update(['total_price' => $total]);
             DB::commit();
 
             $customer = Customer::findOrFail($customer_id);
-            Mail::to($customer->email)->send(new OrderPlaceMail($order_id));
-            return redirect()->route('payment',[$customer_id,$order_id]);
+            Mail::to($customer->email)->send(new OrderPlaceMail($order->id));
+            return redirect()->route('payment',[$customer_id,$order->id]);
         }catch (\Exception $exception)
         {
             DB::rollBack();

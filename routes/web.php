@@ -52,6 +52,7 @@ Route::middleware('auth')->prefix('admin')->group(function (){
     Route::delete('user/{id}/delete','UserController@delete')->name('user.delete');
 
     Route::get('order','OrderController@index')->name('order.index');
+    Route::get('order/export','OrderController@export')->name('order.export');
     Route::get('order/{id}','OrderController@show')->name('order.show');
     Route::get('order/{id}/change-status/{status}','OrderController@change_status')->name('order.change_status');
 

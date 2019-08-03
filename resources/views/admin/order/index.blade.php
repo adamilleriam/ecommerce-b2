@@ -6,6 +6,7 @@
                 <div class="box-header with-border">
                     <h4 class="box-title">Search box</h4>
                     <div class="box-controls pull-right">
+                        <a href="{{ route('order.export') }}" class="btn btn-info btn-sm pull-right">Export</a>
                         <form>
                             <div class="lookup lookup-circle lookup-right">
                                 <input type="text" name="search" value="{{ request()->search }}">
